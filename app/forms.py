@@ -1,7 +1,17 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 # TODO создайте здесь все необходимые формы
+class CustomUserCreationForm(UserCreationForm):
+    email = forms.EmailField(widget=forms.EmailInput)
 
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.email = self.cleaned_data["email"]
+        if commit:
+            user.save()
+            if hasattr(self, "save_m2m"):
+                self.save_m2m()
+        return user
 
 class TemplateForm(forms.Form):
     my_text = forms.CharField()
@@ -15,7 +25,11 @@ class TemplateForm(forms.Form):
     my_textarea = forms.CharField(widget=forms.Textarea)
 
     # TODO Опишите поля (поле для email, пароля, даты, целого числа, переключателя) и их параметры для вашего шаблона формы
-
+    my_email = forms.EmailField()
+    my_password = forms.CharField(widget=forms.PasswordInput)
+    my_date = forms.DateField()
+    my_number = forms.IntegerField()
+    my_checkbox = forms.BooleanField()
 
 """
 Типы полей и их аналоги задаваемые в формах HTML

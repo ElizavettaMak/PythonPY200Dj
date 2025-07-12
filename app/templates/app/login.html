@@ -40,10 +40,18 @@
 							</div>
 						</div>
 
-                        <div class="mb-3 d-flex align-items-center">
-                            <span style="color: red; font-size: 16px">{{ error }}</span>
-                        </div>
-
+<!--                        <div class="mb-3 d-flex align-items-center">-->
+<!--                            <span style="color: red; font-size: 16px">{{ error }}</span>-->
+<!--                        </div>-->
+							<div class="mb-3 d-flex align-items-center">
+								<ul style="color: red; font-size: 16px">
+								{% for field, errors in form.errors.items %}
+									{% for error in errors %}
+										<li>{{ field }}: {{ error }}</li>
+									{% endfor %}
+								{% endfor %}
+								</ul>
+							</div>
 						<div class="mb-3"> 
 							<button type="submit" class="btn btn-block">
 								Войти
@@ -62,7 +70,7 @@
 							
 						<div class="row mb-3">
                             <div class="col-4">
-								<a href="" class="btn btn-block btn-social btn-github">
+								<a href="{% url 'social:begin' 'github' %}" class="btn btn-block btn-social btn-github">
 									<i class="fa fa-github"></i>
 								</a>
 							</div>
