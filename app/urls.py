@@ -1,12 +1,20 @@
 from django.urls import path
-from .views import template_view, index_view, login_view, register_view, \
+from .views import index_view, login_view, register_view, \
     logout_view, user_detail_view, get_text_json
+from .views import TemplView, MyTemplView, MyFormView, MyLoginView
+from django.contrib.auth.views import LoginView
 
 app_name = 'app'
 
 urlpatterns = [
     path('', index_view, name='index'),
-    path('template/', template_view, name='template'),
+    path('template/', MyFormView.as_view(), name='template'),
+    path('template/', MyTemplView.as_view(), name='template'),
+    #path('template/', TemplView.as_view(), name='template'),
+    #path('template/', template_view, name='template'),
+    path('login/', LoginView.as_view(template_name='app/login.html',
+                                     redirect_authenticated_user=True), name='login'),
+    path('login/', MyLoginView.as_view(), name='login'),
     path('login/', login_view, name='login'),
     path('register/', register_view, name='register'),
     path('logout', logout_view, name='logout'),
